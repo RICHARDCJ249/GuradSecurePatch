@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:title="一般">
+            <menu>
+                <item
+                    android:id="@+id/select_city"
+                    android:icon="@drawable/ic_map"
+                    android:title="选择城市" />
+                <item
+                    android:id="@+id/menu_user"
+                    android:icon="@drawable/ic_user"
+                    android:title="个人信息" />
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="高级">
+        <menu>
+            <item
+                android:id="@+id/system_setting"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="设置" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_about"
+                android:title="关于" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+    android:id="@+id/SelectApk"
+    android:icon="@drawable/ic_playlist_add_black_24dp"
+    android:title="安装包"
+    app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/HiddenAllApp"
+        android:icon="@drawable/ic_hidden"
+        android:title="隐藏所有应用"
+        app:showAsAction="always"/>
+</menu>

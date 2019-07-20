@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+    <!-- 设置的类别 -->
+    <android.support.v7.preference.PreferenceCategory
+        android:key="Internet"
+        android:summary="网络"
+        android:title="网络">
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="WIFI"
+            android:title="WIFI高级设置" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="Bluetooth"
+            android:title="蓝牙" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="Firewall"
+            android:title="防火墙" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:key="location"
+        android:summary="本机设置"
+        android:title="本机设置">
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="usb"
+            android:title="usb调试" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="otg"
+            android:title="OTG设置" />
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="TfCard"
+            android:title="TF卡设置" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:key="intent"
+        android:summary="设置界面"
+        android:title="设置界面">
+        <android.support.v7.preference.Preference
+            android:key="BluetoothManager"
+            android:title="蓝牙">
+        </android.support.v7.preference.Preference>
+        <android.support.v7.preference.Preference
+            android:key="AppManager"
+            android:title="应用管理">
+        </android.support.v7.preference.Preference>
+        <android.support.v7.preference.Preference
+            android:key="StrongManager"
+            android:title="储存管理">
+        </android.support.v7.preference.Preference>
+        <android.support.v7.preference.Preference
+            android:key="SafeManager"
+            android:title="安全">
+        </android.support.v7.preference.Preference>
+
+    </android.support.v7.preference.PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>
