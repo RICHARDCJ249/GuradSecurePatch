@@ -76,12 +76,12 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
             @Override
             public void onClick(View view) {
                 if(holder.btnHiddenApp.isSelected()){
-                    MyApplication.getMdm().controlApp(mAppInfo.get(position).getAppPackageName(),true);
+                    MyApplication.getMdm().controlApp(true, mAppInfo.get(position).getAppPackageName());
                     mAppInfo.get(position).setNeedToHidden(true);
                     mAppInfo.get(position).save();
                     notifyItemChanged(position);
                 }else {
-                    MyApplication.getMdm().controlApp(mAppInfo.get(position).getAppPackageName(),false);
+                    MyApplication.getMdm().controlApp(false, mAppInfo.get(position).getAppPackageName());
                     mAppInfo.get(position).setNeedToHidden(false);
                     mAppInfo.get(position).save();
                     notifyItemChanged(position);
@@ -94,7 +94,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
             @Override
             public void onClick(View view) {
                 if (mAppInfo.get(position).isNeedToHidden()){
-                    MyApplication.getMdm().controlApp(mAppInfo.get(position).getAppPackageName(),false);
+                    MyApplication.getMdm().controlApp(false, mAppInfo.get(position).getAppPackageName());
                 }
                 try {
                     mContext.startActivity(mContext.getPackageManager().getLaunchIntentForPackage(mAppInfo.get(position).getAppPackageName()));

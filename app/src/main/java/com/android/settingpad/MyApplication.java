@@ -11,9 +11,6 @@ import org.litepal.LitePal;
 
 public class MyApplication extends Application {
     public enum USER_TYPE {COMMON, VIP, ADMIN}
-
-    ;
-
     private static Context context;
     private static IMDM mdm;
     public static boolean HAVE_BEEN_LOGIN = false;
