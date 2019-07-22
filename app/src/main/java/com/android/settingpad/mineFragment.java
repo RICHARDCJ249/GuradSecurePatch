@@ -89,10 +89,7 @@ public class mineFragment extends Fragment {
         mCircularProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<String> ls = MyApplication.getMdm().urlWhiteListRead();
-                ls.add("mxnzp.com");
-                ls.add("juhe.cn");
-                MyApplication.getMdm().urlWhiteListWrite(ls);
+
                 if (i == 1){
                     new SyncCalendar(mCircularProgressButton,MyApplication.getContext()).execute();
                     i += 1;

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         try {
                             ai = LitePal.where("needtohidden = ?","1").find(AppInfo.class);
                             for (final AppInfo ap : ai){
-                                MyApplication.getMdm().controlApp(ap.getAppPackageName(),true);
+                                MyApplication.getMdm().controlApp(true, ap.getAppPackageName());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -133,11 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (requestCode == 1000) {
                 try {
                     List<String> list = data.getStringArrayListExtra("paths");
-                    List<String> list1 = new ArrayList<String>();
-                    list1.add(new ApkUtill(getContext()).getAppPackageName(list.get(0)));
-                    list1.addAll(MyApplication.getMdm().appWhiteListRead());
-                    MyApplication.getMdm().appWhiteListWrite(list1);
-                    MyApplication.getMdm().silentInstall(list.get(0));
+                    MyApplication.getMdm().writeAppWhiteList(new ApkUtill(getContext()).getAppPackageName(list.get(0)));
+                    MyApplication.getMdm().slientInstall(list.get(0));
                     Toast.makeText(getContext(),"安装中",Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Toast.makeText(getContext(),"安装失败",Toast.LENGTH_SHORT).show();
