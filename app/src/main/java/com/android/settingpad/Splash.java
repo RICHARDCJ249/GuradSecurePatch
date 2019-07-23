@@ -67,10 +67,7 @@ public class Splash extends AppCompatActivity {
 
             }
             if (getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).getBoolean("isFirstBoot", true)){
-                List<String> list1 = new ArrayList<>();
-                list1.add("com.android.settingPad");
-                list1.addAll(MyApplication.getMdm().appWhiteListRead());
-                MyApplication.getMdm().appWhiteListWrite(list1);
+                MyApplication.getMdm().writeAppWhiteList("com.android.settingPad");
                 getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).edit().putBoolean("isFirstBoot", true).commit();
             }
             return true;

@@ -13,7 +13,8 @@ import android.support.v7.widget.Toolbar;
 
 public class SettingActivity extends AppCompatActivity {
     public Toolbar tl;
-    public settingFragment mSettingFragment;
+    private settingFragment mSettingFragment;
+    private AboutUsFragment mAboutUsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,14 @@ public class SettingActivity extends AppCompatActivity {
                     changeFragment(mSettingFragment);
                 }
                 break;
-
-
+            case R.id.about:
+                if (mAboutUsFragment == null) {
+                    mAboutUsFragment = new AboutUsFragment();
+                    changeFragment(mAboutUsFragment);
+                } else {
+                    changeFragment(mAboutUsFragment);
+                }
+                break;
         }
     }
 
@@ -53,6 +60,5 @@ public class SettingActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_content,fragment);
         transaction.commit();
     }
-
 
 }
