@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutUsFragment">
+    tools:context="com.iflytek.tab1.errorbook.AboutUsFragment">
 
-    <com.android.settingpad.utill.MarkdownWebView
+    <com.iflytek.tab1.errorbook.utill.MarkdownWebView
         android:id="@+id/markdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

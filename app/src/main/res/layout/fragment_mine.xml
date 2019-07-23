@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mineFragment"
+    tools:context="com.iflytek.tab1.errorbook.mineFragment"
     android:orientation="vertical">
 
     <RelativeLayout

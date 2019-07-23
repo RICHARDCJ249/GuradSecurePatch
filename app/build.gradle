@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.0 rc2"
     defaultConfig {
-        applicationId "com.android.settingpad"
+        applicationId "com.iflytek.tab1.errorbook"
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 3

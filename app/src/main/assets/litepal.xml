@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<litepal xmlns:android="http://schemas.android.com/apk/res/android">
+<litepal>
     <dbname value="settingPad"/>
     <version value="2"/>
     <list>
-        <mapping class="com.android.bean.AppInfo"/>
+        <mapping class="com.iflytek.tab1.bean.AppInfo" />
     </list>
 </litepal>

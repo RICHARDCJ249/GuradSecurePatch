@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".Splash">
+    tools:context="com.iflytek.tab1.errorbook.Splash">
 
     <ImageView
         android:id="@+id/LogoImg"
