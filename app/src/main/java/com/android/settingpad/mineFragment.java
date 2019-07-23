@@ -89,7 +89,6 @@ public class mineFragment extends Fragment {
         mCircularProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (i == 1){
                     new SyncCalendar(mCircularProgressButton,MyApplication.getContext()).execute();
                     i += 1;

@@ -39,6 +39,8 @@ public class AboutUsFragment extends Fragment {
             String Result = "";
             while ((line = bufReader.readLine()) != null)
                 Result += line;
+            bufReader.close();
+            inputReader.close();
             return Result;
         } catch (Exception e) {
             e.printStackTrace();
