@@ -80,4 +80,8 @@ public interface IMDM {
      */
     public void slientInstall(String s);
 
+    /**
+     * 强行停止应用
+     */
+    public void killAppProcess(String s);
 }

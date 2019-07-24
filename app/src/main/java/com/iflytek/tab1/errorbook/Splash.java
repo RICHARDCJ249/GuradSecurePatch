@@ -25,44 +25,45 @@ public class Splash extends AppCompatActivity {
             Manifest.permission.WRITE_CALENDAR,
     };
 
-        protected void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_splash);
-            initApp();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(Splash.this, MainActivity.class));
-                    finish();
-                }
-            }, 3000);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        initApp();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(Splash.this, MainActivity.class));
+                finish();
+            }
+        }, 3000);
     }
-        public boolean initApp() {
-            boolean isGranted = true;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {    // 检查该权限是否已经获取    //
-                for (String i : permissions)   // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
-                {
-                    if (ContextCompat.checkSelfPermission(getApplicationContext(), i) != PackageManager.PERMISSION_GRANTED) {
-                        isGranted = isGranted && false;
-                    }
-                }
-                if (!isGranted){
-                    ActivityCompat.requestPermissions(this, permissions, 321);
-                }
 
-                if (!Settings.System.canWrite(getContext())) {
-                    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                    intent.setData(Uri.parse("package:" + getContext().getPackageName()));
-                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                    getContext().startActivity(intent);
+    public boolean initApp() {
+        boolean isGranted = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {    // 检查该权限是否已经获取    //
+            for (String i : permissions)   // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            {
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), i) != PackageManager.PERMISSION_GRANTED) {
+                    isGranted = isGranted && false;
                 }
+            }
+            if (!isGranted) {
+                ActivityCompat.requestPermissions(this, permissions, 321);
+            }
 
+            if (!Settings.System.canWrite(getContext())) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + getContext().getPackageName()));
+                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(intent);
             }
-            if (getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).getBoolean("isFirstBoot", true)){
-                MyApplication.getMdm().writeAppWhiteList("com.android.settingPad");
-                getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).edit().putBoolean("isFirstBoot", true).commit();
-            }
-            return true;
+
         }
+        if (getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).getBoolean("isFirstBoot", true)) {
+            MyApplication.getMdm().writeAppWhiteList("com.android.settingPad");
+            getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).edit().putBoolean("isFirstBoot", true).commit();
+        }
+        return true;
     }
+}
 

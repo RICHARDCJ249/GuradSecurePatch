@@ -32,7 +32,7 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private RelativeLayout hiddenapp;
     private RelativeLayout mine;
     private FragmentManager fragmentManager;
@@ -62,24 +62,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.SelectApk:
                 new LFilePicker().withActivity(MainActivity.this).withRequestCode(1000).withFileFilter(new String[]{".apk"}).withIconStyle(Constant.ICON_STYLE_YELLOW).withTitle("选择安装包").withMutilyMode(false).start();
                 break;
             case R.id.HiddenAllApp:
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
                         List<AppInfo> ai;
                         try {
-                            ai = LitePal.where("needtohidden = ?","1").find(AppInfo.class);
-                            for (final AppInfo ap : ai){
+                            ai = LitePal.where("needtohidden = ?", "1").find(AppInfo.class);
+                            for (final AppInfo ap : ai) {
                                 MyApplication.getMdm().controlApp(true, ap.getAppPackageName());
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 });
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Toast.makeText(MyApplication.getContext(), "没有需要隐藏的应用", Toast.LENGTH_SHORT).show();
                         }
 
@@ -102,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.hiddenapp_layout:
                 mine.setSelected(false);
                 hiddenapp.setSelected(true);
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 hiddenapp.setSelected(false);
                 changeFragment(mmineFragment);
                 break;
-                default:
+            default:
                 break;
         }
     }
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MyApplication.getMdm().writeAppWhiteList(new ApkUtill(MyApplication.getContext()).getAppPackageName(list.get(0)));
                     MyApplication.getMdm().slientInstall(list.get(0));
                     Toast.makeText(MyApplication.getContext(), "安装中", Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(MyApplication.getContext(), "安装失败", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -138,40 +137,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * 加载替换Fragment
+     *
      * @param fragment 需要替换的实例对象
      */
-    private void changeFragment(Fragment fragment){
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_fragment_content,fragment);
+    private void changeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fl_fragment_content, fragment);
         transaction.commit();
     }
 
     /**
      * 设置沉浸式状态栏
      */
-    public void setStatusBar(){
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    public void setStatusBar() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     /**
      * 实例化控件
      */
-    private void initViews(){
+    private void initViews() {
         hiddenapp = (RelativeLayout) findViewById(R.id.hiddenapp_layout);
         mine = (RelativeLayout) findViewById(R.id.mine_layout);
-        tl = (Toolbar)findViewById(R.id.MainToolBar);
+        tl = (Toolbar) findViewById(R.id.MainToolBar);
         mHiddenAppFragment = new HiddenAppFragment();
         mmineFragment = new mineFragment();
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.grawerlayout);
-        mNavigationView = (NavigationView)findViewById(R.id.view_nav);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.grawerlayout);
+        mNavigationView = (NavigationView) findViewById(R.id.view_nav);
     }
 
     /**
      * 设置各控件监听器
      */
-    private void setOnClickListener(){
+    private void setOnClickListener() {
         tl.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,20 +186,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.select_city:
                 showInput();
                 break;
             case R.id.menu_user:
-                mIntent.putExtra("Type",R.id.menu_user);
+                mIntent.putExtra("Type", R.id.menu_user);
                 startActivity(mIntent);
                 break;
             case R.id.system_setting:
-                mIntent.putExtra("Type",R.id.system_setting);
+                mIntent.putExtra("Type", R.id.system_setting);
                 startActivity(mIntent);
                 break;
             case R.id.about:
-                mIntent.putExtra("Type",R.id.about);
+                mIntent.putExtra("Type", R.id.about);
                 startActivity(mIntent);
                 break;
         }
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (keyCode == KeyEvent.KEYCODE_BACK && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }

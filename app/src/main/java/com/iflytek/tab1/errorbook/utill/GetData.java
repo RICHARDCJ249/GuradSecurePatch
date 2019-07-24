@@ -24,7 +24,7 @@ public class GetData {
     public int CITY_CODE = 3;
     private Calendar calendar = Calendar.getInstance();
 
-    public static GetData getInstance(){
+    public static GetData getInstance() {
         return new GetData();
     }
 
@@ -42,10 +42,11 @@ public class GetData {
 
     /**
      * 获取天气数据
+     *
      * @param CityCode 城市代码
      * @return Weather数据
      */
-    private void getWeatherData(int CityCode,okhttp3.Callback callback){
+    private void getWeatherData(int CityCode, okhttp3.Callback callback) {
         Request request = new Request.Builder().url(WeatherAddress + CityCode).build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -53,10 +54,11 @@ public class GetData {
 
     /**
      * 获取天气数据
+     *
      * @param CityCode 城市代码
      * @return Weather数据
      */
-    private void getWeatherData(String CityCode,okhttp3.Callback callback){
+    private void getWeatherData(String CityCode, okhttp3.Callback callback) {
         String str = null;
         try {
             str = new String(CityCode.getBytes(), "UTF-8");
@@ -71,6 +73,7 @@ public class GetData {
 
     /**
      * 获取城市代码
+     *
      * @return
      */
     private void getCityCode(okhttp3.Callback callback) {
@@ -79,17 +82,16 @@ public class GetData {
         call.enqueue(callback);
     }
 
-    public void GetDataOfType(okhttp3.Callback callback,int type,String...arg){
-        switch (type){
+    public void GetDataOfType(okhttp3.Callback callback, int type, String... arg) {
+        switch (type) {
             case 1:
                 getWLLData(callback);
                 break;
             case 2:
-                getWeatherData(arg[0],callback);
+                getWeatherData(arg[0], callback);
                 break;
         }
     }
-
 
 
 }

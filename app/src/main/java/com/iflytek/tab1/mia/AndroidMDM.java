@@ -62,4 +62,9 @@ public class AndroidMDM implements IMDM {
     public void slientInstall(String s) {
 
     }
+
+    @Override
+    public void killAppProcess(String s) {
+
+    }
 }

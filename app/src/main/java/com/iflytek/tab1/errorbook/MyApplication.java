@@ -10,6 +10,7 @@ import org.litepal.LitePal;
 
 public class MyApplication extends Application {
     public enum USER_TYPE {COMMON, VIP, ADMIN}
+
     private static Context context;
     private static IMDM mdm;
     public static boolean HAVE_BEEN_LOGIN = false;
@@ -22,8 +23,10 @@ public class MyApplication extends Application {
         mdm = GetMDMInstance.init();
         LitePal.initialize(this);
     }
+
     /**
-     * 获取全局上下文*/
+     * 获取全局上下文
+     */
     public static Context getContext() {
         return context;
     }

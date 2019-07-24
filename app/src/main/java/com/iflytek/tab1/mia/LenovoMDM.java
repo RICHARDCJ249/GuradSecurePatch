@@ -1,6 +1,14 @@
 package com.iflytek.tab1.mia;
+
 import android.app.mia.MiaMdmPolicyManager;
+import android.bluetooth.IBluetoothManager;
+import android.content.Context;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.util.Log;
+
 import com.iflytek.tab1.errorbook.MyApplication;
 
 import java.io.BufferedReader;
@@ -8,7 +16,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import android.bluetooth.BluetoothAdapter;
+
+
 public class LenovoMDM implements IMDM {
+    private static final String TAG = "";
     private MiaMdmPolicyManager mMiaMdmPolicyManager = new MiaMdmPolicyManager(MyApplication.getContext());
 
     @Override
@@ -19,13 +31,15 @@ public class LenovoMDM implements IMDM {
 
     @Override
     public void controlBluetooth(boolean b) {
-        int n = 1;
+        int n = 6;
         if (!b) {
-            n = 2;
+            n = 8;
         }
-        shellExec(n);
-        Log.i("control", "controlBluetooth: " + n);
-
+        try {
+            Runtime.getRuntime().exec("service call bluetooth_manager " + n);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -127,16 +141,8 @@ public class LenovoMDM implements IMDM {
         mMiaMdmPolicyManager.silentInstall(s);
     }
 
-    public void shellExec(Integer s) {
-        Runtime mRuntime = Runtime.getRuntime();
-        String filename = "file:///android_asset/command.sh";
-        try {
-            mRuntime.exec(new String[]{"chmod", "+x", filename});
-            mRuntime.exec(new String[]{filename, s.toString()});
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void killAppProcess(String s) {
 
     }
-
 }

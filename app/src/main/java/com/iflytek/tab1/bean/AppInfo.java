@@ -57,10 +57,10 @@ public class AppInfo extends LitePalSupport {
 
     @Override
     public boolean equals(@android.support.annotation.Nullable Object obj) {
-        AppInfo ap = (AppInfo)obj;
-        if (ap.getAppPackageName().equals(this.appPackageName)){
+        AppInfo ap = (AppInfo) obj;
+        if (ap.getAppPackageName().equals(this.appPackageName)) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

@@ -15,53 +15,55 @@ import static com.iflytek.tab1.errorbook.MyApplication.getMdm;
 
 public class settingFragment extends PreferenceFragmentCompat {
     boolean a;
-    settingFragment(){
+
+    settingFragment() {
         this.a = true;
     }
-    settingFragment(boolean a ){
+
+    settingFragment(boolean a) {
         this.a = a;
     }
 
-    public void onCreatePreferences(Bundle savedInstanceState,String s) {
+    public void onCreatePreferences(Bundle savedInstanceState, String s) {
         //从xml文件加载选项
-        if (a){
+        if (a) {
             addPreferencesFromResource(R.layout.fragment_setting);
-        }else {
-        addPreferencesFromResource(R.layout.fragment_setting);
+        } else {
+            addPreferencesFromResource(R.layout.fragment_setting);
         }
     }
 
     @Override
     public boolean onPreferenceTreeClick(android.support.v7.preference.Preference preference) {
         SwitchPreferenceCompat sp;
-        switch (preference.getKey()){
+        switch (preference.getKey()) {
             case "WIFI":
-                sp = (SwitchPreferenceCompat)findPreference("WIFI");
+                sp = (SwitchPreferenceCompat) findPreference("WIFI");
                 getMdm().controlWiFiProxy(sp.isChecked());
                 break;
             case "Bluetooth":
-                sp = (SwitchPreferenceCompat)findPreference("Bluetooth");
+                sp = (SwitchPreferenceCompat) findPreference("Bluetooth");
                 getMdm().controlBluetooth(sp.isChecked());
                 break;
             case "Firewall":
-                sp = (SwitchPreferenceCompat)findPreference("Firewall");
+                sp = (SwitchPreferenceCompat) findPreference("Firewall");
                 getMdm().controlFireWall(sp.isChecked());
                 Log.i("CalendarSync", "onPreferenceTreeClick: ");
                 break;
             case "usb":
-                sp = (SwitchPreferenceCompat)findPreference("usb");
+                sp = (SwitchPreferenceCompat) findPreference("usb");
                 getMdm().controlUSb(sp.isChecked());
                 break;
             case "otg":
-                sp = (SwitchPreferenceCompat)findPreference("otg");
+                sp = (SwitchPreferenceCompat) findPreference("otg");
                 try {
                     getMdm().controlUSb(!sp.isChecked());
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "TfCard":
-                sp = (SwitchPreferenceCompat)findPreference("TfCard");
+                sp = (SwitchPreferenceCompat) findPreference("TfCard");
                 getMdm().controlTFCard(!sp.isChecked());
                 break;
             case "BluetoothManager":
