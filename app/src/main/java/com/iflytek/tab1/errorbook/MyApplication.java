@@ -3,7 +3,7 @@ package com.iflytek.tab1.errorbook;
 import android.app.Application;
 import android.content.Context;
 
-import com.iflytek.tab1.bean.GetMDMInstance;
+import com.iflytek.tab1.errorbook.utill.GetMDMInstance;
 import com.iflytek.tab1.mia.IMDM;
 
 import org.litepal.LitePal;

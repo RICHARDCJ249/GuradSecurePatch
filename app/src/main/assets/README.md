@@ -23,8 +23,7 @@
 #### 安装教程
 
 1. 请于**领创平板管理**初始化前输入初始密码打开USB调试
-2. 接入计算机后进入ADB工具包目录，按住*shift*点击右键选择在此处打开CMD，输入 
-<br>`adb shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS`手机将唤起开发者模式，打开允许OEM解锁开关
+2. 接入计算机后进入ADB工具包目录，按住*shift*点击右键选择在此处打开CMD，输入 <br>`adb shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS`手机将唤起开发者模式，打开允许OEM解锁开关
 3. 重启手机，于开机前按住音量键上下键，进入*Recovery*模式，使用音量键选择*Reboot to Bootloader*选项并确定，等待重启
 4. 重启成功后，进入*Bootloader*，接入计算机后进入ADB工具包目录，按住*shift*点击右键选择在此处打开CMD，输入<br>`fastboot oem unlock`( **本操作将清除数据** ）<br>根据提示操作，手机端确定后重启
 5. 打开已下载的*TB3-850F.zip*,解压至本地文件夹，在命令行中输入<br>`fastboot flash system system.img`<br>等待完成后，输入<br>`fastboot flash boot boot.img`**（请将*system.img*,*boot.img*替换为本地目录）**<br>，完成后请按住音量下键与电源键强制重启

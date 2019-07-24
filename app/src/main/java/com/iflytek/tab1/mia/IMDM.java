@@ -51,6 +51,13 @@ public interface IMDM {
     public void writeAppWhiteList(String s);
 
     /**
+     * 删除App白名单
+     *
+     * @param s
+     */
+    public void deletAppWhiteList(String s);
+
+    /**
      * 读取网络白名单
      */
     public List<String> readIPWhiteList();

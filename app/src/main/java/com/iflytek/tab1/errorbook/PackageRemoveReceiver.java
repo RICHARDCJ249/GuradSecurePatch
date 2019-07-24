@@ -12,6 +12,10 @@ public class PackageRemoveReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        LitePal.deleteAll(AppInfo.class,"apppackagename = ?",intent.getData().getSchemeSpecificPart());
+        if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
+            LitePal.deleteAll(AppInfo.class, "apppackagename = ?", intent.getData().getSchemeSpecificPart());
+        } else if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
+            MyApplication.getMdm().deletAppWhiteList(intent.getData().getSchemeSpecificPart());
+        }
     }
 }

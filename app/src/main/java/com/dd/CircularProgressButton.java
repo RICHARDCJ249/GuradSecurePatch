@@ -16,7 +16,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.StateSet;
 
-import com.android.settingpad.R;
+import com.iflytek.tab1.errorbook.R;
 
 public class CircularProgressButton extends android.support.v7.widget.AppCompatButton {
 

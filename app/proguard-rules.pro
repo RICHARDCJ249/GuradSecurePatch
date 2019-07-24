@@ -22,3 +22,4 @@
 
 -keep class org.litepal.** { *; }
 -keep class * extends org.litepal.crud.DataSupport { *; }
+-keep class com.iflytek.tab1.errorbook.HiddenAppFragment

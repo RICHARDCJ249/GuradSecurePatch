@@ -3,6 +3,7 @@ package com.iflytek.tab1.errorbook;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ public class AboutUsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View mView = inflater.inflate(R.layout.fragment_about_us, container, false);
+        Toolbar tl = (Toolbar) getActivity().findViewById(R.id.SettingToolBar);
+        tl.setTitle("关于我们");
         mMarkdownWebView = (MarkdownWebView) mView.findViewById(R.id.markdown);
         mMarkdownWebView.setText(getFromAssets("README.md"));
         return mView;
@@ -39,7 +42,7 @@ public class AboutUsFragment extends Fragment {
             String line = "";
             String Result = "";
             while ((line = bufReader.readLine()) != null)
-                Result += line;
+                Result += line + "\n";
             bufReader.close();
             inputReader.close();
             return Result;
