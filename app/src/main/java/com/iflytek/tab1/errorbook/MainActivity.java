@@ -1,7 +1,10 @@
 package com.iflytek.tab1.errorbook;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private mineFragment mmineFragment;
     private HiddenAppFragment mHiddenAppFragment;
     private NavigationView mNavigationView;
+    private Receiver mReceiver;
+    private IntentFilter mIntentFilter;
 
 
     @Override
@@ -56,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hiddenapp.setSelected(true);
         mine.setSelected(false);
         changeFragment(mHiddenAppFragment);
-
+        registerReceiver(mReceiver, mIntentFilter);
 
     }
 
@@ -166,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mmineFragment = new mineFragment();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.grawerlayout);
         mNavigationView = (NavigationView) findViewById(R.id.view_nav);
+        mReceiver = new Receiver();
+        mIntentFilter = new IntentFilter();
     }
 
     /**
@@ -181,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hiddenapp.setOnClickListener(this);
         mine.setOnClickListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
+        mIntentFilter.addAction("android.intent.action.PACKAGE_ADDED");
+        mIntentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
 
     }
 
@@ -233,5 +242,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
         builder.create().show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
+
+    private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED") || intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
+                if (mHiddenAppFragment != null) {
+                    if (mHiddenAppFragment.getmAdapter() != null) {
+                        mHiddenAppFragment.getmAdapter().setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                    }
+                }
+
+            }
+        }
     }
 }

@@ -45,4 +45,9 @@ public class HiddenAppFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         return mView;
     }
+
+    public AppInfoAdapter getmAdapter() {
+        return mAdapter;
+    }
+
 }
