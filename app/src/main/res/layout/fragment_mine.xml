@@ -194,6 +194,12 @@
 
     </RelativeLayout>
 
+    <heweather.com.weathernetsdk.view.SynopticNetworkCustomView
+        android:id="@+id/synopticNetworkCustomView"
+        android:layout_below="@id/x1"
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
 
 

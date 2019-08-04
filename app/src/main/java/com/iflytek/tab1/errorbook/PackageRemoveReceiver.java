@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.iflytek.tab1.bean.AppInfo;
-import com.wantjoin.childmode.AccessCtrlInfo;
 
 import org.litepal.LitePal;
 

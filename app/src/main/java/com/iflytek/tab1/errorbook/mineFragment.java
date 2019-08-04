@@ -1,6 +1,7 @@
 package com.iflytek.tab1.errorbook;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Calendar;
 
+import heweather.com.weathernetsdk.view.HeContent;
+import heweather.com.weathernetsdk.view.SynopticNetworkCustomView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -32,16 +35,12 @@ import okhttp3.Response;
 public class mineFragment extends Fragment {
     private View mView;
     private RelativeLayout mBackgroungImg;
-    private TextView mWeatherCity;
+    private TextView mWeatherCity, reFreshWeather, mBigTempature, mFengXiang, mAqi, mShiDu;
     private ListView mWeatherList;
     private WeatherAdapter mWeatherApadetr;
-    private TextView reFreshWeather;
-    private TextView mBigTempature;
     private Weather mWeatherInfo;
-    private TextView mShiDu;
-    private TextView mFengXiang;
-    private TextView mAqi;
     private CircularProgressButton mCircularProgressButton;
+    private SynopticNetworkCustomView synopticNetworkCustomView;
     int i = 1;
 
 
@@ -54,6 +53,12 @@ public class mineFragment extends Fragment {
         init(mView);
         initData(1);
         mWeatherList.setAdapter(mWeatherApadetr);
+        synopticNetworkCustomView = mView.findViewById(R.id.synopticNetworkCustomView);
+        synopticNetworkCustomView.setViewGravity(HeContent.GRAVITY_CENTER);
+        synopticNetworkCustomView.setViewType(HeContent.TYPE_HORIZONTAL);
+        synopticNetworkCustomView.setViewPadding(5, 5, 5, 5);
+        synopticNetworkCustomView.setViewTextColor(Color.BLACK);
+        synopticNetworkCustomView.show();
         return mView;
     }
 

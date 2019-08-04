@@ -29,9 +29,9 @@ public class AboutUsFragment extends Fragment {
         // Inflate the layout for this fragment
         View mView = inflater.inflate(R.layout.fragment_about_us, container, false);
         Toolbar tl = (Toolbar) getActivity().findViewById(R.id.SettingToolBar);
-        tl.setTitle("关于我们");
+        tl.setTitle("用户最终许可协议");
         mMarkdownWebView = (MarkdownWebView) mView.findViewById(R.id.markdown);
-        mMarkdownWebView.setText(getFromAssets("README.md"));
+        mMarkdownWebView.setText(getFromAssets("eula.md"));
         return mView;
     }
 

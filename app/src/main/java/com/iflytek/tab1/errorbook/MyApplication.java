@@ -8,6 +8,8 @@ import com.iflytek.tab1.mia.IMDM;
 
 import org.litepal.LitePal;
 
+import heweather.com.weathernetsdk.view.HeWeatherConfig;
+
 public class MyApplication extends Application {
     public enum USER_TYPE {COMMON, VIP, ADMIN}
 
@@ -22,6 +24,7 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         mdm = GetMDMInstance.init();
         LitePal.initialize(this);
+        HeWeatherConfig.init("fzwQykcMvh", "location");
     }
 
     /**

@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNavigationView.setNavigationItemSelectedListener(this);
         mIntentFilter.addAction("android.intent.action.PACKAGE_ADDED");
         mIntentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
+        mIntentFilter.addDataScheme("package");
 
     }
 
@@ -260,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mHiddenAppFragment.getmAdapter().notifyDataSetChanged();
                     }
                 }
-
             }
         }
     }
