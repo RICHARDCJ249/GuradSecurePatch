@@ -71,7 +71,7 @@ public interface IMDM {
 
     /**
      * 控制App隐藏
-     * @param b true ;false ;
+     * @param b true 隐藏;false 不隐藏;
      */
     public void controlApp(boolean b, String s);
 

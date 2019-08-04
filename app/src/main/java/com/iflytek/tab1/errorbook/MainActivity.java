@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (mHiddenAppFragment != null) {
                     if (mHiddenAppFragment.getmAdapter() != null) {
                         mHiddenAppFragment.getmAdapter().setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                        mHiddenAppFragment.getmAdapter().notifyDataSetChanged();
                     }
                 }
 

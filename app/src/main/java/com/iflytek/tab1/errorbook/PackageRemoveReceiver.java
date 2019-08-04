@@ -21,6 +21,7 @@ public class PackageRemoveReceiver extends BroadcastReceiver {
             for (AppInfo a : LitePal.where("needtohidden=?", "1").find(AppInfo.class)) {
                 MyApplication.getMdm().controlApp(true, a.getAppPackageName());
             }
+            MyApplication.getMdm().controlBluetooth(false);
         }
     }
 }
