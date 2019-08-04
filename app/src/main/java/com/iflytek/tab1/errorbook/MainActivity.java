@@ -35,6 +35,8 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private RelativeLayout hiddenapp;
     private RelativeLayout mine;
@@ -257,8 +259,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED") || intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
                 if (mHiddenAppFragment != null) {
                     if (mHiddenAppFragment.getmAdapter() != null) {
-                        mHiddenAppFragment.getmAdapter().setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
-                        mHiddenAppFragment.getmAdapter().notifyDataSetChanged();
+                        try {
+                            sleep(1000);
+                            mHiddenAppFragment.getmAdapter().setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                            mHiddenAppFragment.getmAdapter().notifyDataSetChanged();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
