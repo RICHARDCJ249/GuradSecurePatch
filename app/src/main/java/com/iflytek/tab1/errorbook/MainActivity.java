@@ -1,17 +1,24 @@
 package com.iflytek.tab1.errorbook;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -35,6 +42,7 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
+import static com.iflytek.tab1.errorbook.MyApplication.getContext;
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -50,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView mNavigationView;
     private Receiver mReceiver;
     private IntentFilter mIntentFilter;
+
+
+    private String[] permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_CALENDAR,
+            Manifest.permission.WRITE_CALENDAR,
+    };
 
 
     @Override
@@ -88,13 +103,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             ai = LitePal.where("needtohidden = ?", "1").find(AppInfo.class);
                             for (final AppInfo ap : ai) {
                                 MyApplication.getMdm().controlApp(true, ap.getAppPackageName());
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "已隐藏" + ap.getAppName(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
                             }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MyApplication.getContext(), "已隐藏", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            Intent intent = new Intent().setAction("android.intent.action.PACKAGE_ADDED");
+                            sendBroadcast(intent);
                         } catch (Exception e) {
                             Toast.makeText(MyApplication.getContext(), "没有需要隐藏的应用", Toast.LENGTH_SHORT).show();
                         }
@@ -270,5 +287,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+    }
+
+    public boolean initApp() {
+        boolean isGranted = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {    // 检查该权限是否已经获取    //
+            for (String i : permissions)   // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            {
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), i) != PackageManager.PERMISSION_GRANTED) {
+                    isGranted = isGranted && false;
+                }
+            }
+            if (!isGranted) {
+                ActivityCompat.requestPermissions(this, permissions, 321);
+            }
+
+            if (!Settings.System.canWrite(getContext())) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + getContext().getPackageName()));
+                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(intent);
+            }
+
+        }
+        if (getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).getBoolean("isFirstBoot", true)) {
+            MyApplication.getMdm().writeAppWhiteList("com.android.settingPad");
+            getContext().getSharedPreferences("appConfig", Context.MODE_PRIVATE).edit().putBoolean("isFirstBoot", true).commit();
+        }
+        return true;
     }
 }

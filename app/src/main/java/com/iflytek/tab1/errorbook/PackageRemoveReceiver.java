@@ -16,10 +16,11 @@ public class PackageRemoveReceiver extends BroadcastReceiver {
             LitePal.deleteAll(AppInfo.class, "apppackagename = ?", intent.getData().getSchemeSpecificPart());
         } else if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED")) {
             MyApplication.getMdm().deletAppWhiteList(intent.getData().getSchemeSpecificPart());
-        } else if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+        } else if (intent.getAction().equals("android.intent.action.ACTION_SHUTDOWN")) {
             for (AppInfo a : LitePal.where("needtohidden=?", "1").find(AppInfo.class)) {
                 MyApplication.getMdm().controlApp(true, a.getAppPackageName());
             }
+        } else if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             MyApplication.getMdm().controlBluetooth(false);
         }
     }
