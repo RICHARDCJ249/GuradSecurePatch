@@ -32,58 +32,67 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#00000000"></FrameLayout>
+        android:background="#00000000">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/reRefreshOfHidden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ListOfApp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </FrameLayout>
 
     <LinearLayout
         android:background="#80000000"
         android:layout_width="match_parent"
         android:layout_height="49dp">
 
-    <RelativeLayout
-        android:id="@+id/hiddenapp_layout"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/iv_second_match"
-            android:src="@drawable/icon_matchpage_selector"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@id/x1"
             android:layout_centerHorizontal="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp" />
-        <TextView
-            android:id="@+id/tv_second_match"
-            android:textColor="@drawable/text_selector_color"
-            android:text="应用隐藏"
-            android:layout_below="@+id/iv_second_match"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
-    </RelativeLayout>
+            android:background="transparent">
 
-    <RelativeLayout
-        android:id="@+id/mine_layout"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/iv_third_recommend"
-            android:src="@drawable/icon_recommendpage_selector"
-            android:layout_centerHorizontal="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp" />
-        <TextView
-            android:id="@+id/tv_third_recommend"
-            android:textColor="@drawable/text_selector_color"
-            android:text="我的"
-            android:layout_below="@+id/iv_third_recommend"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="日历导入"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btnAsyncCalendar"
+                android:layout_width="96dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cpb_textComplete="完成"
+                app:cpb_textError="错误"
+                app:cpb_textIdle="同步"
+                app:cpb_colorIndicator="@color/cpb_blue"
+                app:cpb_colorIndicatorBackground="@color/cpb_grey"
+                app:cpb_colorProgress="@color/cpb_white"
+                app:cpb_selectorIdle="@drawable/idle_state_selector"
+                app:cpb_selectorComplete="@drawable/complete_state_selector"
+                app:cpb_selectorError="@drawable/error_state_selector"
+                app:cpb_cornerRadius="48dp"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"/>
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

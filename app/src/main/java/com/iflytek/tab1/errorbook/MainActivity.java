@@ -15,14 +15,15 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,9 +33,11 @@ import android.widget.RelativeLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
 import com.iflytek.tab1.bean.AppInfo;
 import com.iflytek.tab1.errorbook.R;
 import com.iflytek.tab1.errorbook.utill.ApkUtill;
+import com.iflytek.tab1.errorbook.utill.AppInfoAdapter;
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.leon.lfilepickerlibrary.utils.Constant;
 
@@ -46,18 +49,17 @@ import static com.iflytek.tab1.errorbook.MyApplication.getContext;
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
-    private RelativeLayout hiddenapp;
-    private RelativeLayout mine;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction transaction;
     private Toolbar tl;
     private DrawerLayout mDrawerLayout;
     private Intent mIntent = new Intent(MyApplication.getContext(), SettingActivity.class);
-    private mineFragment mmineFragment;
-    private HiddenAppFragment mHiddenAppFragment;
     private NavigationView mNavigationView;
     private Receiver mReceiver;
     private IntentFilter mIntentFilter;
+    private CircularProgressButton mCircularProgressButton;
+    private RecyclerView mRecyclerView;
+    private AppInfoAdapter mAdapter;
+    private SwipeRefreshLayout Sfl;
+    int i = 1;
 
 
     private String[] permissions = {
@@ -75,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
         setSupportActionBar(tl);
         setOnClickListener();
-        hiddenapp.setSelected(true);
-        mine.setSelected(false);
-        changeFragment(mHiddenAppFragment);
         registerReceiver(mReceiver, mIntentFilter);
 
     }
@@ -110,8 +109,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Toast.makeText(MyApplication.getContext(), "已隐藏", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            Intent intent = new Intent().setAction("android.intent.action.PACKAGE_ADDED");
-                            sendBroadcast(intent);
                         } catch (Exception e) {
                             Toast.makeText(MyApplication.getContext(), "没有需要隐藏的应用", Toast.LENGTH_SHORT).show();
                         }
@@ -126,20 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.hiddenapp_layout:
-                mine.setSelected(false);
-                hiddenapp.setSelected(true);
-                changeFragment(mHiddenAppFragment);
-                break;
-            case R.id.mine_layout:
-                mine.setSelected(true);
-                hiddenapp.setSelected(false);
-                changeFragment(mmineFragment);
-                break;
-            default:
-                break;
-        }
+
     }
 
     @Override
@@ -164,17 +148,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      *
      * @param fragment 需要替换的实例对象
      */
-    private void changeFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fl_fragment_content, fragment);
-        transaction.commit();
-    }
+//    private void changeFragment(Fragment fragment) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.replace(R.id.fl_fragment_content, fragment);
+//        transaction.commit();
+//    }
 
     /**
      * 设置沉浸式状态栏
-     */
-    public void setStatusBar() {
+     */    public void setStatusBar() {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
@@ -183,14 +166,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 实例化控件
      */
     private void initViews() {
-        hiddenapp = (RelativeLayout) findViewById(R.id.hiddenapp_layout);
-        mine = (RelativeLayout) findViewById(R.id.mine_layout);
         tl = (Toolbar) findViewById(R.id.MainToolBar);
-        mHiddenAppFragment = new HiddenAppFragment();
-        mmineFragment = new mineFragment();
+        mCircularProgressButton = (CircularProgressButton)findViewById(R.id.btnAsyncCalendar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.grawerlayout);
         mNavigationView = (NavigationView) findViewById(R.id.view_nav);
         mReceiver = new Receiver();
+        mRecyclerView = (RecyclerView)findViewById(R.id.ListOfApp);
+        Sfl = (SwipeRefreshLayout)findViewById(R.id.reRefreshOfHidden);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
+        mAdapter = new AppInfoAdapter(getContext(),new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
         mIntentFilter = new IntentFilter();
     }
 
@@ -198,19 +182,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 设置各控件监听器
      */
     private void setOnClickListener() {
+        mRecyclerView.setAdapter(mAdapter);
         tl.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        hiddenapp.setOnClickListener(this);
-        mine.setOnClickListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
         mIntentFilter.addAction("android.intent.action.PACKAGE_ADDED");
         mIntentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
         mIntentFilter.addDataScheme("package");
-
+        mCircularProgressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (i == 1){
+                    new SyncCalendar(mCircularProgressButton,MyApplication.getContext()).execute();
+                    i += 1;
+                }
+            }
+        });
+        Sfl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                mAdapter.notifyDataSetChanged();
+                Sfl.setRefreshing(false);
+            }
+        });
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
     }
 
     @Override
@@ -274,17 +274,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("android.intent.action.PACKAGE_ADDED") || intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) {
-                if (mHiddenAppFragment != null) {
-                    if (mHiddenAppFragment.getmAdapter() != null) {
-                        try {
-                            sleep(1000);
-                            mHiddenAppFragment.getmAdapter().setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
-                            mHiddenAppFragment.getmAdapter().notifyDataSetChanged();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                mAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                mAdapter.notifyDataSetChanged();
             }
         }
     }
