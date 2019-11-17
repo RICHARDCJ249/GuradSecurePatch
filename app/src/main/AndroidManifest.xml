@@ -54,6 +54,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".WeatherActivity"></activity>
+
         <receiver
             android:name=".PackageRemoveReceiver"
             android:enabled="true"
@@ -74,7 +76,6 @@
         <activity
             android:name=".SettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -83,19 +84,22 @@
             <intent-filter>
                 <data android:scheme="rtsp" />
                 <data android:host="www.lingwangsheng.tx" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.heweather.plugin.view.SdkWebViewActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

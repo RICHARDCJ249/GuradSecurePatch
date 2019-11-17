@@ -23,3 +23,9 @@
 -keep class org.litepal.** { *; }
 -keep class * extends org.litepal.crud.DataSupport { *; }
 -keep class com.iflytek.tab1.errorbook.HiddenAppFragment
+-dontwarn com.squareup.**
+-dontwarn okio.**
+-keep public class org.codehaus.* { *; }
+-keep public class java.nio.* { *; }
+-keep public class com.heweather.plugin.bean.** { *; }
+-keep public class com.heweather.plugin.view.** { *; }

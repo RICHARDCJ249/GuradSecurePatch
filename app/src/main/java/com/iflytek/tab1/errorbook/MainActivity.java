@@ -24,17 +24,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.heweather.plugin.view.HeWeatherConfig;
 import com.iflytek.tab1.bean.AppInfo;
 import com.iflytek.tab1.errorbook.R;
 import com.iflytek.tab1.errorbook.utill.ApkUtill;
@@ -46,10 +48,17 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
+import interfaces.heweather.com.interfacesmodule.bean.Code;
+import interfaces.heweather.com.interfacesmodule.bean.Lang;
+import interfaces.heweather.com.interfacesmodule.bean.Unit;
+import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now;
+import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase;
+import interfaces.heweather.com.interfacesmodule.view.HeWeather;
+
 import static com.iflytek.tab1.errorbook.MyApplication.getContext;
 import static java.lang.Thread.sleep;
 
-//天气秘钥 d6dd22a10fd84e36b7a11b63e1a81a87
+//天气秘钥 0930237364b943a2a8b277f81c546e5e
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private Toolbar tl;
     private DrawerLayout mDrawerLayout;
@@ -61,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView mRecyclerView;
     private AppInfoAdapter mAdapter;
     private SwipeRefreshLayout Sfl;
+    private TextView city;
+    private TextView tempature;
+    private LinearLayout weather;
+    String localCity;
+    String localCityId;
+    int k = 0;
     int i = 1;
 
 
@@ -76,16 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setStatusBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        localCity = MyApplication.getContext().getSharedPreferences("appConfig", MODE_PRIVATE).getString("LocatinCity","0");
         initViews();
         setSupportActionBar(tl);
         setOnClickListener();
         registerReceiver(mReceiver, mIntentFilter);
-        String localCity = MyApplication.getContext().getSharedPreferences("appConfig", MODE_PRIVATE).getString("LocatinCity","0");
-        if (localCity.equals("0")){
-            HeWeatherConfig.init("d6dd22a10fd84e36b7a11b63e1a81a87");
-        }else {
-            HeWeatherConfig.init("d6dd22a10fd84e36b7a11b63e1a81a87",localCity);
-        }
 
     }
 
@@ -131,7 +141,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        Intent intent = new Intent(this,WeatherActivity.class);
+        intent.putExtra("type",k);
+        if (k == 0){
+            intent.putExtra("city",localCity);
+        }
+        intent.putExtra("city",localCityId);
+        startActivity(intent);
     }
 
     @Override
@@ -175,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initViews() {
         tl = (Toolbar) findViewById(R.id.MainToolBar);
+        tl.setTitle("");
         mCircularProgressButton = (CircularProgressButton)findViewById(R.id.btnAsyncCalendar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.grawerlayout);
         mNavigationView = (NavigationView) findViewById(R.id.view_nav);
@@ -184,6 +201,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRecyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
         mAdapter = new AppInfoAdapter(getContext(),new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
         mIntentFilter = new IntentFilter();
+        city = (TextView)findViewById(R.id.city);
+        weather = (LinearLayout)findViewById(R.id.weather);
+        tempature = (TextView)findViewById(R.id.tempature);
+        if (localCity.equals("0")){
+            HeWeather.getWeatherNow(MainActivity.this, "", Lang.CHINESE_SIMPLIFIED , Unit.METRIC , new HeWeather.OnResultWeatherNowBeanListener() {
+                @Override
+                public void onError(Throwable e) {
+                }
+
+                @Override
+                public void onSuccess(Now dataObject) {
+                    if ( Code.OK.getCode().equalsIgnoreCase(dataObject.getStatus()) ){
+                        //此时返回数据
+                        city.setText(dataObject.getBasic().getLocation());
+                        localCityId = dataObject.getBasic().getCid();
+                        tempature.setText(dataObject.getNow().getCond_txt()+"  "+dataObject.getNow().getTmp()+"℃");
+                        k = 1;
+                    } else {
+                        //在此查看返回数据失败的原因
+                        String status = dataObject.getStatus();
+                        Code code = Code.toEnum(status);
+                    }
+                }
+            });
+        }else {
+            HeWeather.getWeatherNow(MainActivity.this, localCity, Lang.CHINESE_SIMPLIFIED , Unit.METRIC , new HeWeather.OnResultWeatherNowBeanListener() {
+                @Override
+                public void onError(Throwable e) {
+                }
+
+                @Override
+                public void onSuccess(Now dataObject) {
+                    if ( Code.OK.getCode().equalsIgnoreCase(dataObject.getStatus()) ){
+                        //此时返回数据
+                        city.setText(dataObject.getBasic().getLocation());
+                        localCityId = dataObject.getBasic().getCid();
+                        tempature.setText(dataObject.getNow().getCond_txt()+"  "+dataObject.getNow().getTmp()+"℃");
+                        k = 1;
+                    } else {
+                        //在此查看返回数据失败的原因
+                        String status = dataObject.getStatus();
+                        Code code = Code.toEnum(status);
+                    }
+                }
+            });
+        }
+
     }
 
     /**
@@ -219,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        weather.setOnClickListener(this);
     }
 
     @Override

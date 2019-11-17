@@ -19,22 +19,43 @@
         android:id="@+id/MainToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
         app:navigationIcon="@drawable/ic_dehaze_black_24dp">
+    <!--android:background="#00000000"-->
 
-        <com.heweather.plugin.view.LeftLargeView
-            android:id="@+id/ll_view"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="为霜"
             android:textColor="@color/white"
-            android:textSize="15pt"
+            android:textSize="14pt"
             android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:orientation="vertical"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textColor="@color/white"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tempature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_marginTop="5dp"/>
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
@@ -68,9 +89,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_below="@id/x1"
             android:layout_centerHorizontal="true"
-            android:background="transparent">
+            >
 
             <TextView
                 android:layout_width="wrap_content"
