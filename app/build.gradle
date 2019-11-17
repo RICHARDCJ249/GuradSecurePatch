@@ -49,6 +49,6 @@ dependencies {
     api 'com.android.support:preference-v7:28.+'
     api 'com.android.support:preference-v14:28.+'
     compileOnly files('libs/framework.jar')
-    implementation files('libs/Plugin_SDK_Android_V2.1.jar')
+    implementation files('libs/HeWeather.jar')
 
 }

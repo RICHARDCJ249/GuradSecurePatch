@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-    tools:context="com.iflytek.tab1.errorbook.MainActivity"
+        tools:context="com.iflytek.tab1.errorbook.MainActivity"
         android:background="@drawable/tree"
         android:fitsSystemWindows="true">
 
@@ -20,10 +20,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00000000"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_dehaze_black_24dp"
-        >
+        app:navigationIcon="@drawable/ic_dehaze_black_24dp">
+
+        <com.heweather.plugin.view.LeftLargeView
+            android:id="@+id/ll_view"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="为霜"
+            android:textColor="@color/white"
+            android:textSize="15pt"
+            android:layout_gravity="center"/>
 
     </android.support.v7.widget.Toolbar>
 

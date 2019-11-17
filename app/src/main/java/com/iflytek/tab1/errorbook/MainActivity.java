@@ -34,6 +34,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.heweather.plugin.view.HeWeatherConfig;
 import com.iflytek.tab1.bean.AppInfo;
 import com.iflytek.tab1.errorbook.R;
 import com.iflytek.tab1.errorbook.utill.ApkUtill;
@@ -48,6 +49,7 @@ import java.util.List;
 import static com.iflytek.tab1.errorbook.MyApplication.getContext;
 import static java.lang.Thread.sleep;
 
+//天气秘钥 d6dd22a10fd84e36b7a11b63e1a81a87
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private Toolbar tl;
     private DrawerLayout mDrawerLayout;
@@ -78,6 +80,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(tl);
         setOnClickListener();
         registerReceiver(mReceiver, mIntentFilter);
+        String localCity = MyApplication.getContext().getSharedPreferences("appConfig", MODE_PRIVATE).getString("LocatinCity","0");
+        if (localCity.equals("0")){
+            HeWeatherConfig.init("d6dd22a10fd84e36b7a11b63e1a81a87");
+        }else {
+            HeWeatherConfig.init("d6dd22a10fd84e36b7a11b63e1a81a87",localCity);
+        }
 
     }
 
