@@ -8,8 +8,7 @@ import com.iflytek.tab1.mia.IMDM;
 
 import org.litepal.LitePal;
 
-import interfaces.heweather.com.interfacesmodule.view.HeConfig;
-import interfaces.heweather.com.interfacesmodule.view.HeWeather;
+
 
 
 public class MyApplication extends Application {
@@ -26,7 +25,6 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         mdm = GetMDMInstance.init();
         LitePal.initialize(this);
-        HeConfig.init("HE1911171132101979","ad8273acce5d4579b404ee4e7c4c2a7d");
 
 
     }

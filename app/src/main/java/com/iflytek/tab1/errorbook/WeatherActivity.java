@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import interfaces.heweather.com.interfacesmodule.bean.search.Search;
-import interfaces.heweather.com.interfacesmodule.view.HeWeather;
+
 
 public class WeatherActivity extends AppCompatActivity {
     String CityId;
@@ -20,17 +19,7 @@ public class WeatherActivity extends AppCompatActivity {
         int type=bundle.getInt("type");
         if (type == 0){
             String city = bundle.getString("city");
-            HeWeather.getSearch(this, city,1,new HeWeather.OnResultSearchBeansListener() {
-                @Override
-                public void onError(Throwable throwable) {
 
-                }
-
-                @Override
-                public void onSuccess(Search search) {
-                    CityId = search.getBasic().get(0).getCid();
-                }
-            });
         }else {
             CityId = bundle.getString("city");
         }

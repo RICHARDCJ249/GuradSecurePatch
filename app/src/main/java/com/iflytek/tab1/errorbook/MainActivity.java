@@ -22,6 +22,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,13 +49,6 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
-import interfaces.heweather.com.interfacesmodule.bean.Code;
-import interfaces.heweather.com.interfacesmodule.bean.Lang;
-import interfaces.heweather.com.interfacesmodule.bean.Unit;
-import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now;
-import interfaces.heweather.com.interfacesmodule.bean.weather.now.NowBase;
-import interfaces.heweather.com.interfacesmodule.view.HeWeather;
-
 import static com.iflytek.tab1.errorbook.MyApplication.getContext;
 import static java.lang.Thread.sleep;
 
@@ -67,15 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Receiver mReceiver;
     private IntentFilter mIntentFilter;
     private CircularProgressButton mCircularProgressButton;
-    private RecyclerView mRecyclerView;
-    private AppInfoAdapter mAdapter;
+    private RecyclerView mRecyclerViewHidden;
+    private RecyclerView mRecyclerViewNoHidden;
+    private AppInfoAdapter mHiddenAdapter;
+    private AppInfoAdapter mNoHiddenAdapter;
     private SwipeRefreshLayout Sfl;
-    private TextView city;
-    private TextView tempature;
-    private LinearLayout weather;
-    String localCity;
-    String localCityId;
-    int k = 0;
     int i = 1;
 
 
@@ -88,10 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setStatusBar();
+//        setStatusBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        localCity = MyApplication.getContext().getSharedPreferences("appConfig", MODE_PRIVATE).getString("LocatinCity","0");
         initViews();
         setSupportActionBar(tl);
         setOnClickListener();
@@ -141,13 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this,WeatherActivity.class);
-        intent.putExtra("type",k);
-        if (k == 0){
-            intent.putExtra("city",localCity);
-        }
-        intent.putExtra("city",localCityId);
-        startActivity(intent);
+
     }
 
     @Override
@@ -196,57 +179,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout = (DrawerLayout) findViewById(R.id.grawerlayout);
         mNavigationView = (NavigationView) findViewById(R.id.view_nav);
         mReceiver = new Receiver();
-        mRecyclerView = (RecyclerView)findViewById(R.id.ListOfApp);
+        mRecyclerViewHidden = (RecyclerView)findViewById(R.id.HiddenListOfApp);
+        mRecyclerViewNoHidden = (RecyclerView)findViewById(R.id.NoHiddenListOfApp);
         Sfl = (SwipeRefreshLayout)findViewById(R.id.reRefreshOfHidden);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
-        mAdapter = new AppInfoAdapter(getContext(),new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+        mRecyclerViewHidden.setLayoutManager(new GridLayoutManager(MyApplication.getContext(),5));
+        mRecyclerViewNoHidden.setLayoutManager(new GridLayoutManager(MyApplication.getContext(),5));
+        mHiddenAdapter = new AppInfoAdapter(getContext(),new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
         mIntentFilter = new IntentFilter();
-        city = (TextView)findViewById(R.id.city);
-        weather = (LinearLayout)findViewById(R.id.weather);
-        tempature = (TextView)findViewById(R.id.tempature);
-        if (localCity.equals("0")){
-            HeWeather.getWeatherNow(MainActivity.this, "", Lang.CHINESE_SIMPLIFIED , Unit.METRIC , new HeWeather.OnResultWeatherNowBeanListener() {
-                @Override
-                public void onError(Throwable e) {
-                }
-
-                @Override
-                public void onSuccess(Now dataObject) {
-                    if ( Code.OK.getCode().equalsIgnoreCase(dataObject.getStatus()) ){
-                        //此时返回数据
-                        city.setText(dataObject.getBasic().getLocation());
-                        localCityId = dataObject.getBasic().getCid();
-                        tempature.setText(dataObject.getNow().getCond_txt()+"  "+dataObject.getNow().getTmp()+"℃");
-                        k = 1;
-                    } else {
-                        //在此查看返回数据失败的原因
-                        String status = dataObject.getStatus();
-                        Code code = Code.toEnum(status);
-                    }
-                }
-            });
-        }else {
-            HeWeather.getWeatherNow(MainActivity.this, localCity, Lang.CHINESE_SIMPLIFIED , Unit.METRIC , new HeWeather.OnResultWeatherNowBeanListener() {
-                @Override
-                public void onError(Throwable e) {
-                }
-
-                @Override
-                public void onSuccess(Now dataObject) {
-                    if ( Code.OK.getCode().equalsIgnoreCase(dataObject.getStatus()) ){
-                        //此时返回数据
-                        city.setText(dataObject.getBasic().getLocation());
-                        localCityId = dataObject.getBasic().getCid();
-                        tempature.setText(dataObject.getNow().getCond_txt()+"  "+dataObject.getNow().getTmp()+"℃");
-                        k = 1;
-                    } else {
-                        //在此查看返回数据失败的原因
-                        String status = dataObject.getStatus();
-                        Code code = Code.toEnum(status);
-                    }
-                }
-            });
-        }
 
     }
 
@@ -254,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 设置各控件监听器
      */
     private void setOnClickListener() {
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerViewHidden.setAdapter(mHiddenAdapter);
+        mRecyclerViewNoHidden.setAdapter(mHiddenAdapter);
         tl.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -277,13 +217,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Sfl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
-                mAdapter.notifyDataSetChanged();
+                mHiddenAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                mHiddenAdapter.notifyDataSetChanged();
                 Sfl.setRefreshing(false);
             }
         });
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        weather.setOnClickListener(this);
     }
 
     @Override
@@ -352,8 +290,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                mAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
-                mAdapter.notifyDataSetChanged();
+                mHiddenAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                mHiddenAdapter.notifyDataSetChanged();
             }
         }
     }

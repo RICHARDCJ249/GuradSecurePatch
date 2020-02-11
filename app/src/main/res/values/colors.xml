@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#68c2e8</color>
+    <color name="colorPrimaryDark">#68c2e8</color>
+    <color name="colorAccent">#68c2e8</color>
     <color name="cpb_grey">#ffdedede</color>
     <color name="cpb_blue">#ff0099cc</color>
     <color name="cpb_blue_dark">#ff00719b</color>

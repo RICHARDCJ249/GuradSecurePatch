@@ -1,70 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/itemOfAppList"
-    android:background="#80000000">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20px"
+    android:paddingRight="20px"
+    android:paddingTop="20px">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/appImg"
+        android:layout_width="62px"
+        android:layout_height="62px"
+        android:layout_centerHorizontal="true"
+        />
 
-            <ImageView
-                android:id="@+id/appImg"
-                android:layout_width="62px"
-                android:layout_height="62px"
-                android:layout_marginLeft="24px"
-                android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/appImg"
-                android:orientation="vertical"
-                android:layout_marginLeft="24px"
-                >
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appImg"
+        android:layout_centerHorizontal="true"
+        android:textColor="#2c003e" />
 
-                <TextView
-                    android:id="@+id/appName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"/>
 
-                <TextView
-                    android:id="@+id/appPackageName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"/>
+</RelativeLayout>
 
-                <TextView
-                    android:id="@+id/appVersion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/appState"
-                android:layout_width="58px"
-                android:layout_height="58px"
-                android:src="@drawable/selector_app_state"
-                android:layout_toLeftOf="@id/appDelete"
-                android:layout_marginRight="10px"
-                android:layout_centerInParent="true"/>
-
-            <ImageView
-                android:id="@+id/appDelete"
-                android:layout_width="62px"
-                android:layout_height="62px"
-                android:src="@drawable/selector_delete_app"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="10px"/>
-
-        </RelativeLayout>
-    </LinearLayout>
 
 
 

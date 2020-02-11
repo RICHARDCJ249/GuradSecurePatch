@@ -1,141 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/grawerlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/grawerlayout">
+    android:layout_height="match_parent">
 
-<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:orientation="vertical"
-        tools:context="com.iflytek.tab1.errorbook.MainActivity"
-        android:background="@drawable/tree"
-        android:fitsSystemWindows="true">
+        tools:context="com.iflytek.tab1.errorbook.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/MainToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_dehaze_black_24dp">
-    <!--android:background="#00000000"-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/MainToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#68c2e8"
+            app:navigationIcon="@drawable/ic_dehaze_black_24dp">
+            <!--android:background="#00000000"-->
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="为霜"
-            android:textColor="@color/white"
-            android:textSize="14pt"
-            android:layout_gravity="center"/>
-
-        <LinearLayout
-            android:id="@+id/weather"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:orientation="vertical"
-            android:layout_marginRight="5dp">
 
             <TextView
-                android:id="@+id/city"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N/A"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Pad Manager"
                 android:textColor="@color/white"
-                android:gravity="center"/>
+                android:textSize="12pt" />
 
-            <TextView
-                android:id="@+id/tempature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N/A"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_marginTop="5dp"/>
-        </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
-    <FrameLayout
-        android:id="@+id/fl_fragment_content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#00000000">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="20px"
+            android:src="@drawable/logo_name" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/reRefreshOfHidden"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ListOfApp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#d2fafb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2px"
+                    android:text="未隐藏"
+                    android:textColor="#2c003e" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#68c2e8" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/NoHiddenListOfApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10px"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#d2fafb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2px"
+                    android:text="已隐藏"
+                    android:textColor="#2c003e" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#68c2e8" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/HiddenListOfApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10px"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#d2fafb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2px"
+                    android:text="其他功能"
+                    android:textColor="#2c003e" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#68c2e8" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_centerHorizontal="true"
+                    android:padding="5px">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="日历导入"
+                        android:textColor="#2c003e"
+                        android:textSize="20sp" />
+
+                    <com.dd.CircularProgressButton
+                        android:id="@+id/btnAsyncCalendar"
+                        android:layout_width="96dp"
+                        android:layout_height="45dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:cpb_colorIndicator="@color/cpb_blue"
+                        app:cpb_colorIndicatorBackground="@color/cpb_grey"
+                        app:cpb_colorProgress="@color/cpb_white"
+                        app:cpb_cornerRadius="48dp"
+                        app:cpb_selectorComplete="@drawable/complete_state_selector"
+                        app:cpb_selectorError="@drawable/error_state_selector"
+                        app:cpb_selectorIdle="@drawable/idle_state_selector"
+                        app:cpb_textComplete="完成"
+                        app:cpb_textError="错误"
+                        app:cpb_textIdle="同步" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </FrameLayout>
-
-    <LinearLayout
-        android:background="#80000000"
-        android:layout_width="match_parent"
-        android:layout_height="49dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_centerHorizontal="true"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="日历导入"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <com.dd.CircularProgressButton
-                android:id="@+id/btnAsyncCalendar"
-                android:layout_width="96dp"
-                android:layout_height="45dp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:cpb_textComplete="完成"
-                app:cpb_textError="错误"
-                app:cpb_textIdle="同步"
-                app:cpb_colorIndicator="@color/cpb_blue"
-                app:cpb_colorIndicatorBackground="@color/cpb_grey"
-                app:cpb_colorProgress="@color/cpb_white"
-                app:cpb_selectorIdle="@drawable/idle_state_selector"
-                app:cpb_selectorComplete="@drawable/complete_state_selector"
-                app:cpb_selectorError="@drawable/error_state_selector"
-                app:cpb_cornerRadius="48dp"
-                android:layout_marginRight="20dp"
-                android:layout_centerVertical="true"/>
-
-
-        </RelativeLayout>
 
     </LinearLayout>
-</LinearLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/view_nav"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:id="@+id/view_nav"
         app:headerLayout="@layout/activity_main_header"
-        app:menu="@menu/side_menu"/>
+        app:menu="@menu/side_menu">
+
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>
