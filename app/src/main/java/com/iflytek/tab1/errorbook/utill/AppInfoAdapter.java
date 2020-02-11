@@ -1,7 +1,9 @@
 package com.iflytek.tab1.errorbook.utill;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -67,6 +69,52 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
         holder.item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("选择一个操作");
+                String[] chooseItem = {"打开", "隐藏(取消隐藏)", "删除"};
+                builder.setItems(chooseItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: {
+                                if (mAppInfo.get(position).isNeedToHidden()) {
+                                    MyApplication.getMdm().controlApp(false, mAppInfo.get(position).getAppPackageName());
+                                }
+                                try {
+                                    mContext.startActivity(mContext.getPackageManager().getLaunchIntentForPackage(mAppInfo.get(position).getAppPackageName()));
+                                    Toast.makeText(MyApplication.getContext(), "正在打开" + mAppInfo.get(position).getAppName(), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MyApplication.getContext(), "打开失败", Toast.LENGTH_LONG).show();
+                                }
+                                break;
+                            }
+                            case 2: {
+                                Uri uri = Uri.parse("package:" + mAppInfo.get(position).getAppPackageName());
+                                Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                                break;
+                            }
+                            case 1: {
+                                if (mAppInfo.get(position).isNeedToHidden()) {
+                                    MyApplication.getMdm().controlApp(true, mAppInfo.get(position).getAppPackageName());
+                                    mAppInfo.get(position).setNeedToHidden(false);
+                                    mAppInfo.get(position).save();
+                                    notifyItemChanged(position);
+                                } else {
+                                    MyApplication.getMdm().controlApp(false, mAppInfo.get(position).getAppPackageName());
+                                    mAppInfo.get(position).setNeedToHidden(true);
+                                    mAppInfo.get(position).save();
+                                    notifyItemChanged(position);
+                                }
+                                break;
+
+                            }
+                        }
+                    }
+
+                });
+                builder.show();
                 return true;
             }
         });
@@ -81,7 +129,11 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
 
     @Override
     public int getItemCount() {
-        return mAppInfo.size();
+        try {
+            return mAppInfo.size();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public static class AppInfoViewHolder extends RecyclerView.ViewHolder {

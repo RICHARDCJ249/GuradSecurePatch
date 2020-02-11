@@ -1,6 +1,7 @@
 package com.iflytek.tab1.errorbook;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppInfoAdapter mHiddenAdapter;
     private AppInfoAdapter mNoHiddenAdapter;
     private SwipeRefreshLayout Sfl;
+    private List<AppInfo> noHiddenApp;
+    private List<AppInfo> HiddenApp;
     int i = 1;
 
 
@@ -81,11 +84,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        setStatusBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        HiddenApp = LitePal.where("needToHidden = ?", "1").find(AppInfo.class);
+        noHiddenApp = new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo();
+        noHiddenApp.removeAll(HiddenApp);
         initViews();
         setSupportActionBar(tl);
         setOnClickListener();
         registerReceiver(mReceiver, mIntentFilter);
-
     }
 
     @Override
@@ -184,7 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Sfl = (SwipeRefreshLayout)findViewById(R.id.reRefreshOfHidden);
         mRecyclerViewHidden.setLayoutManager(new GridLayoutManager(MyApplication.getContext(),5));
         mRecyclerViewNoHidden.setLayoutManager(new GridLayoutManager(MyApplication.getContext(),5));
-        mHiddenAdapter = new AppInfoAdapter(getContext(),new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+        mHiddenAdapter = new AppInfoAdapter(this, HiddenApp);
+        mNoHiddenAdapter = new AppInfoAdapter(this, noHiddenApp);
         mIntentFilter = new IntentFilter();
 
     }
@@ -194,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void setOnClickListener() {
         mRecyclerViewHidden.setAdapter(mHiddenAdapter);
-        mRecyclerViewNoHidden.setAdapter(mHiddenAdapter);
+        mRecyclerViewNoHidden.setAdapter(mNoHiddenAdapter);
         tl.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,8 +223,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Sfl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mHiddenAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                HiddenApp = LitePal.where("needToHidden = ?", "1").find(AppInfo.class);
+                noHiddenApp = new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo();
+                noHiddenApp.removeAll(HiddenApp);
+                mHiddenAdapter.setmAppInfo(HiddenApp);
                 mHiddenAdapter.notifyDataSetChanged();
+                mNoHiddenAdapter.setmAppInfo(noHiddenApp);
+                mNoHiddenAdapter.notifyDataSetChanged();
                 Sfl.setRefreshing(false);
             }
         });
@@ -290,8 +301,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                mHiddenAdapter.setmAppInfo(new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo());
+                HiddenApp = LitePal.where("needToHidden = ?", "1").find(AppInfo.class);
+                noHiddenApp = new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo();
+                noHiddenApp.removeAll(HiddenApp);
+                mHiddenAdapter.setmAppInfo(HiddenApp);
                 mHiddenAdapter.notifyDataSetChanged();
+                mNoHiddenAdapter.setmAppInfo(noHiddenApp);
+                mNoHiddenAdapter.notifyDataSetChanged();
             }
         }
     }

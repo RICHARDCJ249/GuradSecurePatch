@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,6 +41,7 @@
             android:padding="20px"
             android:src="@drawable/logo_name" />
 
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/reRefreshOfHidden"
             android:layout_width="match_parent"
@@ -49,70 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#d2fafb" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="2px"
-                    android:text="未隐藏"
-                    android:textColor="#2c003e" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#68c2e8" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/NoHiddenListOfApp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10px"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#d2fafb" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="2px"
-                    android:text="已隐藏"
-                    android:textColor="#2c003e" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#68c2e8" />
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/HiddenListOfApp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10px"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#d2fafb" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="2px"
-                    android:text="其他功能"
-                    android:textColor="#2c003e" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#68c2e8" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -132,8 +70,8 @@
 
                     <com.dd.CircularProgressButton
                         android:id="@+id/btnAsyncCalendar"
-                        android:layout_width="96dp"
-                        android:layout_height="45dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
@@ -150,14 +88,60 @@
                         app:cpb_textError="错误"
                         app:cpb_textIdle="同步" />
 
-
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#d2fafb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2px"
+                    android:layout_marginLeft="8pt"
+                    android:text="未隐藏"
+                    android:textColor="#2c003e" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#68c2e8" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/NoHiddenListOfApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10px" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#d2fafb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8pt"
+                    android:padding="2px"
+                    android:text="已隐藏"
+                    android:textColor="#2c003e" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#68c2e8" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/HiddenListOfApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10px" />
 
             </LinearLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
-
 
     </LinearLayout>
 
