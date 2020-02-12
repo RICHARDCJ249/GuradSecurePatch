@@ -97,12 +97,12 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoV
                             }
                             case 1: {
                                 if (mAppInfo.get(position).isNeedToHidden()) {
-                                    MyApplication.getMdm().controlApp(true, mAppInfo.get(position).getAppPackageName());
+                                    MyApplication.getMdm().controlApp(false, mAppInfo.get(position).getAppPackageName());
                                     mAppInfo.get(position).setNeedToHidden(false);
                                     mAppInfo.get(position).save();
                                     notifyItemChanged(position);
                                 } else {
-                                    MyApplication.getMdm().controlApp(false, mAppInfo.get(position).getAppPackageName());
+                                    MyApplication.getMdm().controlApp(true, mAppInfo.get(position).getAppPackageName());
                                     mAppInfo.get(position).setNeedToHidden(true);
                                     mAppInfo.get(position).save();
                                     notifyItemChanged(position);
