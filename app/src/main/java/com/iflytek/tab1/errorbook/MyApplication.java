@@ -26,7 +26,6 @@ public class MyApplication extends Application {
         mdm = GetMDMInstance.init();
         LitePal.initialize(this);
 
-
     }
 
     /**

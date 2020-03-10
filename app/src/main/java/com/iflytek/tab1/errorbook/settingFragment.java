@@ -16,11 +16,11 @@ import static com.iflytek.tab1.errorbook.MyApplication.getMdm;
 public class settingFragment extends PreferenceFragmentCompat {
     boolean a;
 
-    settingFragment() {
+    public settingFragment() {
         this.a = true;
     }
 
-    settingFragment(boolean a) {
+    public settingFragment(boolean a) {
         this.a = a;
     }
 
@@ -39,7 +39,7 @@ public class settingFragment extends PreferenceFragmentCompat {
         switch (preference.getKey()) {
             case "WIFI":
                 sp = (SwitchPreferenceCompat) findPreference("WIFI");
-                getMdm().controlWiFiProxy(sp.isChecked());
+                getMdm().controlWiFiProxy(!sp.isChecked());
                 break;
             case "Bluetooth":
                 sp = (SwitchPreferenceCompat) findPreference("Bluetooth");

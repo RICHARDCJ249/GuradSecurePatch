@@ -31,7 +31,7 @@ public class AboutUsFragment extends Fragment {
         Toolbar tl = (Toolbar) getActivity().findViewById(R.id.SettingToolBar);
         tl.setTitle("用户最终许可协议");
         mMarkdownWebView = (MarkdownWebView) mView.findViewById(R.id.markdown);
-        mMarkdownWebView.setText(getFromAssets("eula.md"));
+        mMarkdownWebView.setText(getFromAssets("README.md"));
         return mView;
     }
 
