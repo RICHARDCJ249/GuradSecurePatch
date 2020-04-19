@@ -7,10 +7,6 @@ import android.content.pm.PackageManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.iflytek.tab1.bean.AppInfo;
-
-import org.litepal.LitePal;
-
 
 /**
  * 应用工具类
@@ -28,73 +24,32 @@ public class ApkUtill {
      * 用于获取所有第三方应用
      * @return List<AppInfo>
      */
-    private List<AppInfo> getThirtAppInfo(){
+    public List<String> getThirtAppInfo() {
         List<PackageInfo> pF1 = pm.getInstalledPackages(0);
-        List<AppInfo> aF1 = new ArrayList<>();
+        List<String> aF = new ArrayList<String>();
         for (PackageInfo pf : pF1){
             if ((pf.applicationInfo.flags & pf.applicationInfo.FLAG_SYSTEM) == 0){
-                AppInfo aF = new AppInfo();
-                aF.setAppName(pf.applicationInfo.loadLabel(pm).toString());
-                aF.setAppPackageName(pf.packageName);
-                aF.setAppVersion(pf.versionName);
-                aF.setIsthirtapp(aF.THIRT_APP);
-                aF1.add(aF);
+                aF.add(pf.applicationInfo.packageName);
             }
         }
-        return aF1;
+        return aF;
     }
 
     /**
      * 用于获取所有系统应用
      * @return List<AppInfo>
      */
-    private List<AppInfo> getSystemAppInfo(){
+    private List<String> getSystemAppInfo() {
         List<PackageInfo> pF1 = pm.getInstalledPackages(0);
-        List<AppInfo> aF1 = new ArrayList<>();
+        List<String> aF = new ArrayList<String>();
         for (PackageInfo pf : pF1){
             if ((pf.applicationInfo.flags & pf.applicationInfo.FLAG_SYSTEM) != 0){
-                AppInfo aF = new AppInfo();
-                aF.setAppName(pf.applicationInfo.loadLabel(pm).toString());
-                aF.setAppPackageName(pf.packageName);
-                aF.setAppVersion(pf.versionName);
-                aF.setIsthirtapp(aF.SYSTEM_APP);
-                aF1.add(aF);
+                aF.add(pf.applicationInfo.packageName);
             }
         }
-        return aF1;
+        return aF;
     }
 
-    /**
-     * 用于获取所有第三方应用
-     * @return
-     */
-    public List<AppInfo> getAllThirtAppInfo(){
-        List<AppInfo> af = getThirtAppInfo();
-        try {
-            List<AppInfo> af1 = LitePal.where("isthirtapp = ?","0").find(AppInfo.class);
-            af.removeAll(af1);
-            af.addAll(af1);
-            return af;
-        }catch (Exception e){
-            return af;
-        }
-    }
-
-    /**
-     * 用于获取所有系统应用
-     * @return
-     */
-    public List<AppInfo> getAllSystemAppInfo(){
-        List<AppInfo> af = getThirtAppInfo();
-        try {
-            List<AppInfo> af1 = LitePal.where("isthirtapp = ?","1").find(AppInfo.class);
-            af.removeAll(af1);
-            af.addAll(af1);
-            return af;
-        }catch (Exception e){
-            return af;
-        }
-    }
 
     public String getAppPackageName(String s){
         return pm.getPackageArchiveInfo(s, PackageManager.GET_ACTIVITIES).packageName;

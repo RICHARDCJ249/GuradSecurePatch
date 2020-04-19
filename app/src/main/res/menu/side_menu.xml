@@ -7,10 +7,6 @@
                     android:id="@+id/select_city"
                     android:icon="@drawable/ic_map"
                     android:title="选择城市" />
-                <item
-                    android:id="@+id/menu_user"
-                    android:icon="@drawable/ic_user"
-                    android:title="个人信息" />
             </menu>
         </item>
     </group>

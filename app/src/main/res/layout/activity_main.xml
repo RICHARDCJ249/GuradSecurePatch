@@ -106,44 +106,6 @@
                     android:layout_height="1px"
                     android:background="#d2fafb" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_centerHorizontal="true"
-                    android:padding="5px">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:text="日历导入"
-                        android:textColor="#2c003e"
-                        android:textSize="20sp" />
-
-                    <com.dd.CircularProgressButton
-                        android:id="@+id/btnAsyncCalendar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        app:cpb_colorIndicator="@color/cpb_blue"
-                        app:cpb_colorIndicatorBackground="@color/cpb_grey"
-                        app:cpb_colorProgress="@color/cpb_white"
-                        app:cpb_cornerRadius="48dp"
-                        app:cpb_selectorComplete="@drawable/complete_state_selector"
-                        app:cpb_selectorError="@drawable/error_state_selector"
-                        app:cpb_selectorIdle="@drawable/idle_state_selector"
-                        app:cpb_textComplete="完成"
-                        app:cpb_textError="错误"
-                        app:cpb_textIdle="同步" />
-
-                </RelativeLayout>
-
             </LinearLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>

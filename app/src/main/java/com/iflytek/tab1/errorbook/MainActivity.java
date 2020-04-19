@@ -2,6 +2,7 @@ package com.iflytek.tab1.errorbook;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -39,21 +41,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.iflytek.tab1.bean.AppInfo;
 import com.iflytek.tab1.errorbook.R;
 import com.iflytek.tab1.errorbook.utill.ApkUtill;
+import com.iflytek.tab1.errorbook.utill.ApkUtillPre;
 import com.iflytek.tab1.errorbook.utill.AppInfoAdapter;
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.leon.lfilepickerlibrary.utils.Constant;
 
-import org.litepal.LitePal;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.iflytek.tab1.errorbook.MyApplication.getContext;
 import static java.lang.Thread.sleep;
 
-//天气秘钥 0930237364b943a2a8b277f81c546e5e
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private Toolbar tl;
     private DrawerLayout mDrawerLayout;
@@ -61,15 +64,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView mNavigationView;
     private Receiver mReceiver;
     private IntentFilter mIntentFilter;
-    private CircularProgressButton mCircularProgressButton;
     private RecyclerView mRecyclerViewHidden;
     private RecyclerView mRecyclerViewNoHidden;
     private AppInfoAdapter mHiddenAdapter;
     private AppInfoAdapter mNoHiddenAdapter;
     private SwipeRefreshLayout Sfl;
-    private List<AppInfo> noHiddenApp;
-    private List<AppInfo> HiddenApp;
-    int i = 1;
+    private List<String> noHiddenApp;
+    private List<String> HiddenApp;
 
 
     @Override
@@ -77,13 +78,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        setStatusBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HiddenApp = LitePal.where("needToHidden = ?", "1").find(AppInfo.class);
-        noHiddenApp = new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo();
+        if (new ApkUtillPre(MyApplication.getContext()).getAllHideApK() == null) {
+            HiddenApp = new ArrayList<String>();
+        } else {
+            HiddenApp = Arrays.asList(new ApkUtillPre(MyApplication.getContext()).getAllHideApK());
+        }
+
+        noHiddenApp = new ApkUtill(MyApplication.getContext()).getThirtAppInfo();
         noHiddenApp.removeAll(HiddenApp);
         initViews();
         setSupportActionBar(tl);
         setOnClickListener();
         registerReceiver(mReceiver, mIntentFilter);
+        LocalBroadcastManager.getInstance(MyApplication.getContext()).registerReceiver(mReceiver, new IntentFilter("updateAppList"));
     }
 
     @Override
@@ -102,11 +109,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Thread() {
                     @Override
                     public void run() {
-                        List<AppInfo> ai;
+                        String[] ai;
                         try {
-                            ai = LitePal.where("needtohidden = ?", "1").find(AppInfo.class);
-                            for (final AppInfo ap : ai) {
-                                MyApplication.getMdm().controlApp(true, ap.getAppPackageName());
+                            ai = new ApkUtillPre(MyApplication.getContext()).getAllHideApK();
+                            for (String ap : ai) {
+                                MyApplication.getMdm().controlApp(true, ap);
                             }
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -173,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initViews() {
         tl = (Toolbar) findViewById(R.id.MainToolBar);
         tl.setTitle("");
-        mCircularProgressButton = (CircularProgressButton)findViewById(R.id.btnAsyncCalendar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.grawerlayout);
         mNavigationView = (NavigationView) findViewById(R.id.view_nav);
         mReceiver = new Receiver();
@@ -204,20 +210,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mIntentFilter.addAction("android.intent.action.PACKAGE_ADDED");
         mIntentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
         mIntentFilter.addDataScheme("package");
-        mCircularProgressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (i == 1){
-                    new SyncCalendar(mCircularProgressButton,MyApplication.getContext()).execute();
-                    i += 1;
-                }
-            }
-        });
         Sfl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                HiddenApp = LitePal.where("needToHidden = ?", "1").find(AppInfo.class);
-                noHiddenApp = new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo();
+                if (new ApkUtillPre(MyApplication.getContext()).getAllHideApK() == null) {
+                    HiddenApp = new ArrayList<String>();
+                } else {
+                    HiddenApp = Arrays.asList(new ApkUtillPre(MyApplication.getContext()).getAllHideApK());
+                }
+                noHiddenApp = new ApkUtill(MyApplication.getContext()).getThirtAppInfo();
                 noHiddenApp.removeAll(HiddenApp);
                 mHiddenAdapter.setmAppInfo(HiddenApp);
                 mHiddenAdapter.notifyDataSetChanged();
@@ -233,10 +234,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (menuItem.getItemId()) {
             case R.id.select_city:
                 showInput();
-                break;
-            case R.id.menu_user:
-                mIntent.putExtra("Type", R.id.menu_user);
-                startActivity(mIntent);
                 break;
             case R.id.system_setting:
                 mIntent.putExtra("Type", R.id.system_setting);
@@ -283,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(MyApplication.getContext()).unregisterReceiver(mReceiver);
     }
 
     private class Receiver extends BroadcastReceiver {
@@ -294,8 +292,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                HiddenApp = LitePal.where("needToHidden = ?", "1").find(AppInfo.class);
-                noHiddenApp = new ApkUtill(MyApplication.getContext()).getAllThirtAppInfo();
+                HiddenApp = Arrays.asList(new ApkUtillPre(MyApplication.getContext()).getAllHideApK());
+                noHiddenApp = new ApkUtill(MyApplication.getContext()).getThirtAppInfo();
+                noHiddenApp.removeAll(HiddenApp);
+                mHiddenAdapter.setmAppInfo(HiddenApp);
+                mHiddenAdapter.notifyDataSetChanged();
+                mNoHiddenAdapter.setmAppInfo(noHiddenApp);
+                mNoHiddenAdapter.notifyDataSetChanged();
+            } else {
+                HiddenApp = Arrays.asList(new ApkUtillPre(MyApplication.getContext()).getAllHideApK());
+                noHiddenApp = new ApkUtill(MyApplication.getContext()).getThirtAppInfo();
                 noHiddenApp.removeAll(HiddenApp);
                 mHiddenAdapter.setmAppInfo(HiddenApp);
                 mHiddenAdapter.notifyDataSetChanged();

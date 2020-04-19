@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<litepal>
-    <dbname value="settingPad"/>
-    <version value="2"/>
-    <list>
-        <mapping class="com.iflytek.tab1.bean.AppInfo" />
-    </list>
-</litepal>

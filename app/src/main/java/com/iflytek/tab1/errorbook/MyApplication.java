@@ -6,7 +6,6 @@ import android.content.Context;
 import com.iflytek.tab1.errorbook.utill.GetMDMInstance;
 import com.iflytek.tab1.mia.IMDM;
 
-import org.litepal.LitePal;
 
 
 
@@ -24,7 +23,6 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         mdm = GetMDMInstance.init();
-        LitePal.initialize(this);
 
     }
 

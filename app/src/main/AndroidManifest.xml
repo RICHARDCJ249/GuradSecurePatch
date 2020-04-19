@@ -54,6 +54,7 @@
         android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
+        android:debuggable="true"
         >
 
         <receiver
@@ -83,7 +84,7 @@
             >
             <intent-filter>
                 <data android:scheme="rtsp" />
-                <data android:host="www.12345.org" />
+                <data android:host="www.keepstudy.com" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
